@@ -1,12 +1,20 @@
 from random import randint
 
 def num_to_gesture(num):
-    if num == 1:
-        return "剪刀"
-    elif num == 2:
-        return "石頭"
-    elif num == 3:
-        return "布"
+    gestures = {
+        "1": "剪刀",
+        "2": "石頭",
+        "3": "布"
+    }
+
+    return gestures[str(num)]
+
+def show_score(player_name, scores):
+    print(f"===================================")
+    print(f"|{player_name.center(16)}|{'電腦'.center(16)}|")
+    print(f"===================================")
+    print(f"|{str(scores['player']).center(16)}|{str(scores['computer']).center(16)}|")
+    print(f"===================================")
 
 if __name__ == "__main__":
     print("-------歡迎來到剪刀石頭布！-------")
@@ -14,9 +22,14 @@ if __name__ == "__main__":
     name = input("請輸入您的名稱：")
 
     while True:
-        # 將玩家分數、電腦分數、平手的次數依序記錄下來
-        scores = [0, 0, 0]
-        while sum(scores) < 3:
+        # 記錄玩家與電腦勝利次數
+        winners = {
+            "player": 0,
+            "computer": 0,
+            "draw": 0
+        }
+
+        while sum(winners.values()) < 3:
             while True:
                 user_hand = input("請出拳 (1) 剪刀 (2) 石頭 (3) 布：")
                 # 若玩家輸入的内容是數字，而且是 1, 2, 3 的其中一個
@@ -35,29 +48,31 @@ if __name__ == "__main__":
 
             if user_hand == comp_hand:
                 print('平手!')
-                scores[2] += 1
+                winners["draw"] += 1
             elif user_hand == 1 and comp_hand == 3:
                 print('你贏了一把!')
-                scores[0] += 1
+                winners["player"] += 1
             elif user_hand == 2 and comp_hand == 1:
                 print('你贏了一把')
-                scores[0] += 1
+                winners["player"] += 1
             elif user_hand == 3 and comp_hand == 2:
                 print('你贏了一把')
-                scores[0] += 1
+                winners["player"] += 1
             else:
                 print('你輸了一把!')
-                scores[1] += 1
+                winners["computer"] += 1
+            # 每次猜完拳。就顯示積分
+            show_score(name, winners)
 
         print("==================================")
-        print(f"{name}贏了: {scores[0]} 把")
-        print(f"電腦贏了: {scores[1]} 把")
-        print(f"平手: {scores[2]} 把")
+        print(f"{name}贏了: {winners['player']} 把")
+        print(f"電腦贏了: {winners['computer']} 把")
+        print(f"平手: {winners['draw']} 把")
         print("==================================")
 
-        if scores[0] > scores[1]:
+        if winners['player'] > winners['computer']:
             print("恭喜你是最終勝利者！")
-        elif  scores[0] < scores[1]:
+        elif winners['player'] < winners['computer']:
             print("哭哭，你輸了！")
         else:
             print("平手！")             
