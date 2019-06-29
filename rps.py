@@ -15,7 +15,15 @@ if __name__ == "__main__":
 
     name = input("請輸入您的名稱：")
 
-    user_hand = int(input("請出拳 (1) 剪刀 (2) 石頭 (3) 布："))
+    while True:
+        user_hand = input("請出拳 (1) 剪刀 (2) 石頭 (3) 布：")
+        # 若玩家輸入的内容是數字，而且是 1, 2, 3 的其中一個
+        if user_hand.isdigit() and (user_hand in ["1", "2", "3"]):
+            # 就將輸入轉成整數，再跳出 loop
+            user_hand = int(user_hand)
+            break
+        else:
+            print("請輸入合法的選項！")
 
     # 電腦出拳
     comp_hand = randint(1,3)
